@@ -20,25 +20,16 @@ class task:
 
     def add_q(self,q_time):
         self.q = q_time
+    
+    def __repr__(self):
+        return str(self)
 
 
 def print_list(list):
-    print("nr: ",end=" ")
-    for i in list:
-        print(i.id, end = " ")
-    print()
-    print("r: ",end=" ")
-    for i in list:
-        print(i.r, end = " ")
-    print()
-    print("p: ",end=" ")
-    for i in list:
-        print(i.p, end = " ")
-    print()
-    print("q: ",end=" ")
-    for i in list:
-        print(i.q, end = " ")
-    print()
+    print("nr: ",[i.id for i in list])
+    print("r: ",[i.r for i in list])
+    print("p: ",[i.p for i in list])
+    print("q: ",[i.q for i in list])
 
 
 def sc(list):
@@ -52,16 +43,10 @@ def sc(list):
         cq.append(c[i] + list[i].q)
         Cmax = max(Cmax,(c[i] + list[i].q))
     
-    print("pi: ",end=" ")
-    for i in list:
-        print(i.id, end = " ")
-    print()
-    print("s: ",end=" ")
-    print(s)
-    print("c: ",end=" ")
-    print(c)
-    print("cq: ",end=" ")
-    print(cq)
+    print("pi: ",[i.id for i in list])
+    print("s: ",s)
+    print("c: ",c)
+    print("cq: ",cq)
     print("Cmax: ",Cmax)
 
 
@@ -69,7 +54,7 @@ def sc(list):
 generator = RandomNumberGenerator.RandomNumberGenerator(SEED)
 s = []  # moment rozpoczecia zadania
 c = []  # moment zakonczenia zadania
-cq = []
+cq = [] # moment oddania zadania
 Cmax = 0
 
 list = []
@@ -87,36 +72,37 @@ for i in range(NUMBER):
     list[i].add_q(generator.nextInt(1,A))
 
 print_list(list)
-print()
-print("Permutacja naturalna:")
+print("\n"+"Permutacja naturalna:")
 sc(list)
-print()
-print("Kolejnosc po algorytmie Schrage:")
 
 
 # algorytm Schrage
-k = 1
-N = copy.copy(list)
-G = []
-pi = [] # prawidlowa kolejnosc
-t = min(N,key=operator.attrgetter("r")).r
 
-while G or N:
-    while N and min(N,key=operator.attrgetter("r")).r <= t:
-        ob = min(N,key=operator.attrgetter("r"))
-        G.append(copy.copy(ob))
-        N.remove(ob)
-    if G:
-        ob = max(G,key=operator.attrgetter("q"))
-        G.remove(ob)
-        pi.append(copy.copy(ob))
-        t += ob.p
-        k += 1
-    else:
-        t = min(N,key=operator.attrgetter("r")).r
+def Schrage():
+    print("\n"+"Kolejnosc po algorytmie Schrage:")
+    k = 1
+    N = copy.copy(list)
+    G = []
+    pi = [] # prawidlowa kolejnosc
+    t = min(N,key=operator.attrgetter("r")).r
 
-s.clear()
-c.clear()
-cq.clear()
-sc(pi)
+    while G or N:
+        while N and min(N,key=operator.attrgetter("r")).r <= t:
+            ob = min(N,key=operator.attrgetter("r"))
+            G.append(ob)
+            N.remove(ob)
+        if G:
+            ob = max(G,key=operator.attrgetter("q"))
+            G.remove(ob)
+            pi.append(ob)
+            t += ob.p
+            k += 1
+        else:
+            t = min(N,key=operator.attrgetter("r")).r
 
+    s.clear()
+    c.clear()
+    cq.clear()
+    sc(pi)
+
+Schrage()
