@@ -2,6 +2,7 @@ from generatory import RandomNumberGenerator
 import math
 import operator
 import copy
+import heapq
 
 NUMBER = 10  # ilosc zadan do wykonania
 SEED = 1
@@ -23,6 +24,9 @@ class task:
     
     def __repr__(self):
         return str(self)
+
+    def __lt__(self, other):
+        return other.q < self.q
 
 
 def print_list(list):
@@ -105,4 +109,33 @@ def Schrage():
     cq.clear()
     sc(pi)
 
+
+def Schrage_v2():
+    print("\n"+"Kolejnosc po algorytmie Schrage kolejkowanym:")
+    k = 1
+    N = copy.copy(list)
+    G = []
+    pi = [] # prawidlowa kolejnosc
+
+    N=sorted(N,key=operator.attrgetter("r"),reverse=True)
+    t = N[NUMBER-1].r
+   #print(t)
+    while G or N:
+        while N and N[len(N)-1].r <= t:
+            ob = N.pop()
+            heapq.heappush(G,ob)
+        if G:
+            ob = heapq.heappop(G)
+            pi.append(ob)
+            t += ob.p
+            k += 1
+        else:
+            t = N[len(N)-1].r
+
+    s.clear()
+    c.clear()
+    cq.clear()
+    sc(pi)
+
 Schrage()
+Schrage_v2()
