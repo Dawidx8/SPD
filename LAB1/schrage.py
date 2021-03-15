@@ -137,5 +137,37 @@ def Schrage_v2():
     cq.clear()
     sc(pi)
 
+def Schrage_v3():
+    print("\n"+"Cmax po algorytmie Schrage pmtn:")
+    Cmax = 0
+    G = []
+    N = copy.copy(list)
+    t = 0
+    l = task(0)
+    l.add_q(1_000_000)
+
+    while G or N:
+        while N and min(N,key=operator.attrgetter("r")).r <= t:
+            ob = min(N,key=operator.attrgetter("r"))
+            G.append(ob)
+            N.remove(ob)
+            if ob.q > l.q:
+                l.p = t - ob.r
+                t = ob.r
+                if l.p > 0:
+                    G.append(l)
+        if not G:
+            t = min(N,key=operator.attrgetter("r")).r
+        else:
+            ob = max(G,key=operator.attrgetter("q"))
+            G.remove(ob)
+            l = ob
+            t = t + ob.p
+            Cmax = max(Cmax,t+ob.q)
+    
+    print("Cmax = ", Cmax)
+
+
 Schrage()
 Schrage_v2()
+Schrage_v3()
