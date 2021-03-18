@@ -52,6 +52,7 @@ def sc(list):
     print("c: ",c)
     print("cq: ",cq)
     print("Cmax: ",Cmax)
+    return Cmax, c
 
 
 
@@ -85,8 +86,8 @@ sc(list)
 def Schrage():
     print("\n"+"Kolejnosc po algorytmie Schrage:")
     k = 1
-    N = copy.copy(list)
-    G = []
+    N = copy.copy(list) # zbior zadan nieuszeregowanych
+    G = []  # zbior zadan gotowych do realizacji
     pi = [] # prawidlowa kolejnosc
     t = min(N,key=operator.attrgetter("r")).r
 
@@ -107,7 +108,9 @@ def Schrage():
     s.clear()
     c.clear()
     cq.clear()
-    sc(pi)
+    [Cmax,c] = sc(pi)
+
+    return pi, Cmax, c
 
 
 def Schrage_v2():
@@ -136,6 +139,7 @@ def Schrage_v2():
     c.clear()
     cq.clear()
     sc(pi)
+
 
 def Schrage_v3():
     print("\n"+"Cmax po algorytmie Schrage pmtn:")
@@ -167,7 +171,29 @@ def Schrage_v3():
     
     print("Cmax = ", Cmax)
 
+UB = 1_000_000
+def Carlier():
+    (U,Cmax,c) = Schrage()
+    if Cmax < UB:
+        UB = Cmax
+        pi = copy.copy(U)
+    b = 0
+    for i in list:
+        C = i.q + c[i.id-1] 
+        if C > b:
+            b = C  
 
-Schrage()
-Schrage_v2()
-Schrage_v3()
+    a = 1_000_000
+    suma = 0
+    for i in list:
+        C = i.r + list[b-1].q
+        for j in range(i.id-1,b):
+            suma += list[j]
+        C += suma
+
+
+
+#Schrage()
+#Schrage_v2()
+#Schrage_v3()
+Carlier()
