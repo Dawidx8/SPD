@@ -37,7 +37,7 @@ def NEH_v2(zadania):
         min_ = min(tab) # najmniejsze Cmax
         ind = tab.index(min_)   # wiemy na jaka pozycje wstawic w oryginale
         pi.insert(ind,ob)   # wstawianie w oryginale
-        tab = []
+        tab=[]
         for i in range(len(pi)):
             if i != ind:
                 tab.append(delete_(copy(pi),i)) # usuniecie zadania, zeby Cmax bylo jak najmniejsze
